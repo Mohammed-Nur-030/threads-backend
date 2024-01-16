@@ -15,10 +15,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const server_1 = require("@apollo/server");
 const express4_1 = require("@apollo/server/express4");
+const db_1 = require("./lib/db");
 function init() {
     return __awaiter(this, void 0, void 0, function* () {
         const app = (0, express_1.default)();
-        const PORT = Number(process.env.PORT) || 8000;
+        const PORT = Number(process.env.PORT) || 8080;
         app.use(express_1.default.json());
         //create GraphQL Server
         const server = new server_1.ApolloServer({
@@ -26,10 +27,27 @@ function init() {
         type Query{
             hello:String
         }
+        type Mutation{
+            createUser(firstName:String!, lastName:String!,email: String!,password:String!):Boolean
+        }
         `,
             resolvers: {
                 Query: {
                     hello: () => `YOYOYO`,
+                },
+                Mutation: {
+                    createUser: (_, { firstName, lastName, email, password }) => __awaiter(this, void 0, void 0, function* () {
+                        yield db_1.prisma.user.create({
+                            data: {
+                                email,
+                                firstName,
+                                lastName,
+                                password,
+                                salt: "asdfasdasdasdasdas"
+                            }
+                        });
+                        return true;
+                    })
                 }
             }
         });
