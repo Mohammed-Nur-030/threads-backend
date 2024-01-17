@@ -13,7 +13,7 @@ async function init() {
 
     //create GraphQL Server
     const server = new ApolloServer({
-        typeDefs: `
+        typeDefs:`
         type Query{
             hello:String
         }
@@ -30,14 +30,18 @@ async function init() {
                     {
                         firstName,lastName,email,password
                     }:{
-                        firstName: string;lastName: string;email: string;password: string})=>{
+                        firstName:string; 
+                        lastName:string; 
+                        email:string;
+                        password: string
+                    })=>{
                             await prisma.user.create({
                                 data:{
                                     email,
                                     firstName,
                                     lastName,
                                     password,
-                                    salt:"asdfasdasdasdasdas"
+                                    salt:"random_salt"
                                 }
                             })
                             return true;

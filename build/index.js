@@ -43,7 +43,7 @@ function init() {
                                 firstName,
                                 lastName,
                                 password,
-                                salt: "asdfasdasdasdasdas"
+                                salt: "random_salt"
                             }
                         });
                         return true;
